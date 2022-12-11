@@ -1,11 +1,12 @@
 package com.example.rabbitmqpublisher.config;
 
-import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.BindingBuilder;
-import org.springframework.amqp.core.Queue;
-import org.springframework.amqp.core.TopicExchange;
+import com.rabbitmq.client.Channel;
+import com.rabbitmq.client.impl.AMQImpl;
+import org.springframework.amqp.core.*;
 import org.springframework.amqp.rabbit.connection.CachingConnectionFactory;
+import org.springframework.amqp.rabbit.connection.Connection;
 import org.springframework.amqp.rabbit.connection.ConnectionFactory;
+import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.amqp.rabbit.listener.SimpleMessageListenerContainer;
 import org.springframework.amqp.rabbit.listener.adapter.MessageListenerAdapter;
@@ -14,6 +15,8 @@ import org.springframework.amqp.support.converter.MessageConverter;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+
+import java.io.IOException;
 
 @Configuration
 public class SampleConfig{
@@ -40,6 +43,7 @@ public class SampleConfig{
     TopicExchange exchange() {
         return new TopicExchange(EXCHANGE_NAME);
     }
+
 
     @Bean
     Queue queue() {
@@ -68,6 +72,17 @@ public class SampleConfig{
         connectionFactory.setPassword(password);
         return connectionFactory;
     }
+
+    @Bean
+    public RabbitAdmin amqpAdmin() {
+        return new RabbitAdmin(connectionFactory());
+    }
+//    @Bean
+//    Channel channel(ConnectionFactory connectionFactory) throws IOException {
+//        Connection connection = connectionFactory.createConnection();
+//        Channel channel = connection.createChannel(true);
+//        return channel;
+//    }
 
     @Bean
     MessageConverter messageConverter() {

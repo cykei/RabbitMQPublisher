@@ -1,4 +1,4 @@
-package com.example.rabbitmqpublisher;
+package com.example.rabbitmqpublisher.rabbitmq;
 
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.Queue;

@@ -1,4 +1,4 @@
-package com.example.rabbitmqpublisher;
+package com.example.rabbitmqpublisher.rabbitmq;
 
 import lombok.Data;
 
